@@ -42,13 +42,13 @@ router.get('/', function(req, res, next) {
       })
       .then(prediction => {
         if (_.size(prediction.output) > 0) {
-          let confidence = prediction.output[0] >= threshold ? 
-                                                (prediction.output[0] * 100).toFixed(2) :
-                                                (100 - (prediction.output[0] * 100)).toFixed(2)
+          let confidence = (prediction.output[0] * 100).toFixed(2);
+          
           console.log(`Malicious request confidence: ${confidence}%`);
+
           responseObj = {
               label: prediction.output[0] >= threshold ? label_ids[1] : label_ids[0],
-              accuracy: `${confidence}%`
+              confidence_bad_request: `${confidence}%`
           };
 
           res.status(200).send({
